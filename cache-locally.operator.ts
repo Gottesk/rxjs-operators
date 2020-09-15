@@ -51,6 +51,7 @@ const getFromCache = <T>(key: string): T => {
     return item && item.data;
 };
 
+/** Operator for caching data from an observable in localStorage with an expiration date. */
 export function cacheLocally<T>(key: string, request: Observable<T>, expirationTime = expirationTimeDefault): MonoTypeOperatorFunction<T> {
     return input$ => input$.pipe(
         () =>

@@ -36,6 +36,9 @@ const setItem = <T>(key: string, data: T) => {
 };
 
 const isCacheAvailable = <T>(key: string, expirationTime: number): boolean => {
+    if (!isLocalStorageAvailable()) {
+        return false;
+    }
     const item = getItem<T>(key);
     if (!item) {
         return false;
@@ -49,6 +52,17 @@ const isCacheAvailable = <T>(key: string, expirationTime: number): boolean => {
 const getFromCache = <T>(key: string): T => {
     const item = getItem<T>(key);
     return item && item.data;
+};
+
+const isLocalStorageAvailable = () => {
+    const test = '__test__';
+    try {
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+    } catch (e) {
+        return false;
+    }
 };
 
 /** Operator for caching data from an observable in localStorage with an expiration date. */
